@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">eGOMover</string>
+    <string name="username">PETER TESTER</string>
+    <string name="where">WOHIN?</string>
+    <string name="flex">WIE FLEXIBEL BIST DU?</string>
+    <string name="flexibel">Flexibel</string>
+    <string name="semi_flex">Halbwegs pünktlich</string>
+    <string name="on_time">On Time</string>
+    <string name="superspeed">Superspeed</string>
 </resources>
