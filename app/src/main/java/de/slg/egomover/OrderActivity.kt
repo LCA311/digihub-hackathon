@@ -41,7 +41,7 @@ class OrderActivity : AppCompatActivity() {
             }
 
             override fun onError(status: Status) {
-                Log.e("PlaceAutocomplete", "Error listener ${status}")
+                Log.e("PlaceAutocomplete", "Error listener $status")
             }
         })
 
@@ -53,7 +53,7 @@ class OrderActivity : AppCompatActivity() {
 
         Bus(qnr, { b ->
             //TODO hide FAB progressbar
-            val intent = Intent(this, TimeActivity::class.java)
+            val intent = Intent(applicationContext, TimeActivity::class.java)
             intent.putExtra("bus", b)
             startActivity(intent)
         })

@@ -17,6 +17,7 @@ import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
+import kotlinx.android.synthetic.main.fragment_drive.view.*
 
 
 class WaitFragment : Fragment() {
@@ -25,31 +26,32 @@ class WaitFragment : Fragment() {
     private var longitude = 0.0
     private var job = Job()
 
-    init {
-        val locationManager = context!!.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-
-        if ( ContextCompat.checkSelfPermission(context!!, android.Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
-            ActivityCompat.requestPermissions(activity!!, arrayOf(android.Manifest.permission.ACCESS_COARSE_LOCATION), 0)
-        }
-
-        val location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-        latitude = location.latitude
-        longitude = location.longitude
-    }
-
     companion object {
         fun newInstance() : WaitFragment = WaitFragment()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val v = inflater.inflate(R.layout.fragment_drive, container, false)
-        updateTime(arrival_timestamp)
+        setOwnGPSData()
+        updateTime(v.arrival_timestamp)
         return v
     }
 
     override fun onDestroy() {
         job.cancel()
         super.onDestroy()
+    }
+
+    fun setOwnGPSData() {
+        val locationManager = activity?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+
+        if ( ContextCompat.checkSelfPermission(activity!!, android.Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
+            ActivityCompat.requestPermissions(activity!!, arrayOf(android.Manifest.permission.ACCESS_COARSE_LOCATION), 0)
+        }
+
+        val location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+        latitude = location.latitude
+        longitude = location.longitude
     }
 
     @SuppressLint("SetTextI18n")
