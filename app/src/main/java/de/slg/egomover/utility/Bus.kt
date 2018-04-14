@@ -12,7 +12,7 @@ import java.util.*
  *
  * @version 2018.1304
  */
-class Bus constructor(private var id : String) {
+class Bus constructor(private var id : String, private val callback : (b : Bus) -> Unit) {
 
     //TODO: regularly sync values or sync on demand
 
@@ -33,6 +33,10 @@ class Bus constructor(private var id : String) {
     private var avgSpeed = 0.0
     //Last measured eta to lastTarget
     private var eta = 0
+    //Last measured distance to lastTarget
+    private var distance = 0
+    //Reader-friendly bus designation
+    private var designation = -1
 
 
     private var etcJob = Job()
@@ -44,19 +48,32 @@ class Bus constructor(private var id : String) {
 
     private fun startKeepUpToDate() {
         etcJob = launch (CommonPool) {
+
+            val initialStatus = getETC(id)
+            avgSpeed = initialStatus.avgSpeed
+            capacity = initialStatus.capacity
+            designation = initialStatus.designation
+            batteryLevel = initialStatus.battery
+            geolocation = getGPS(id)
+
+            callback(this@Bus)
+
             while (true) {
+
+                delay(5*60*1000)
+
                 val status = getETC(id)
                 avgSpeed = status.avgSpeed
                 capacity = status.capacity
+                designation = status.designation
                 batteryLevel = status.battery
-                delay(5*60*1000)
             }
         }
 
         gpsJob = launch (CommonPool) {
             while (true) {
-                geolocation = getGPS(id)
                 delay(60*1000)
+                geolocation = getGPS(id)
             }
         }
     }
@@ -86,14 +103,28 @@ class Bus constructor(private var id : String) {
         return avgSpeed
     }
 
+    fun getDesignation() : Int {
+        return designation
+    }
+
     //Must be called asynchronously
     fun getMinutesToTarget(latitude: Double, longitude: Double) : Int {
         if (GPSData(latitude, longitude) != lastTarget) {
             geolocation = getGPS(id)
-            eta = getETA(geolocation, GPSData(latitude, longitude))
+            eta = getETA(geolocation, GPSData(latitude, longitude)).eta
         }
 
         return eta
+    }
+
+    //Must be called asynchronously
+    fun getDistanceToTarget(latitude: Double, longitude: Double) : Int {
+        if (GPSData(latitude, longitude) != lastTarget) {
+            geolocation = getGPS(id)
+            distance = getETA(geolocation, GPSData(latitude, longitude)).kilometers
+        }
+
+        return distance
     }
 
 }

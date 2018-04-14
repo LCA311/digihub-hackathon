@@ -12,8 +12,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(b)
         setContentView(R.layout.activity_debug)
 
-        val eta = Bus("stub").getMinutesToTarget(50.77305680000001, 6.0830810999999585)
-        Log.d("eGOMover", eta.toString())
+        val bus = Bus("30000017DC237001", { bus ->
+            Log.d("eGO Mover", bus.getDesignation().toString())
+        })
+
+        bus.stopKeepUpDate()
 
     }
 
