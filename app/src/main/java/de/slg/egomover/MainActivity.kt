@@ -22,9 +22,7 @@ import android.graphics.drawable.Drawable
 import android.widget.Button
 import kotlinx.android.synthetic.main.activity_main.*
 import de.slg.egomover.api.getAllGPSData
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.async
-
+import kotlinx.android.synthetic.main.activity_main.view.*
 
 class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -42,12 +40,13 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
         val mapFragment: SupportMapFragment? = supportFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
         mapFragment?.getMapAsync(this)  //the map is loaded asynchronously
+
         order_bus.setOnClickListener{
-            val intent = Intent(this, OrderActivity::class.java)
+            val intent = Intent(this, OrderActivity::class.java )
             startActivity(intent);
         }
 
-      
+
     }
 
     inline fun FragmentManager.inTransaction(func: FragmentTransaction.() -> Unit) { //manages and initialises fragments
