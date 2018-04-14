@@ -1,6 +1,7 @@
 package de.slg.egomover
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -18,7 +19,8 @@ import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.MarkerOptions
 import android.graphics.drawable.Drawable
-
+import android.widget.Button
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -36,9 +38,13 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         setContentView(R.layout.activity_main)
 
         val mapFragment: SupportMapFragment? = supportFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
-        
         mapFragment?.getMapAsync(this)  //the map is loaded asynchronously
+        order_bus.setOnClickListener{
+            val intent = Intent(this, OrderActivity::class.java)
+            startActivity(intent);
+        }
 
+      
     }
 
     inline fun FragmentManager.inTransaction(func: FragmentTransaction.() -> Unit) { //manages and initialises fragments
