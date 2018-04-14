@@ -6,6 +6,9 @@ import android.support.v7.app.AppCompatActivity
 import de.slg.egomover.utility.Bus
 import kotlinx.android.synthetic.main.activity_order.*
 import android.util.Log
+import android.view.View
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.Toast
 import com.google.android.gms.common.api.Status
 import com.google.android.gms.location.places.AutocompleteFilter
@@ -28,22 +31,57 @@ class OrderActivity : AppCompatActivity() {
         }
 
         val places = fragmentManager.findFragmentById(R.id.place_autocomplete_fragment) as PlaceAutocompleteFragment
-        val typeFilter = AutocompleteFilter.Builder()
-                .setCountry("DE")
-                .setTypeFilter(AutocompleteFilter.TYPE_FILTER_ADDRESS)
-                .build()
+        val typeFilter = AutocompleteFilter.Builder().setCountry("DE").setTypeFilter(AutocompleteFilter.TYPE_FILTER_ADDRESS).build()
 
         places.setFilter(typeFilter)
-        places.setBoundsBias(LatLngBounds( LatLng(50.67479994045297, 5.853315170639689), LatLng(50.89186684463814, 6.320234115952189)))
+        places.setBoundsBias(LatLngBounds(LatLng(50.67479994045297, 5.853315170639689), LatLng(50.89186684463814, 6.320234115952189)))
         places.setOnPlaceSelectedListener(object : PlaceSelectionListener {
             override fun onPlaceSelected(place: Place) {
-                //place.address
+                //TODO place.address --> use LatLng
             }
 
             override fun onError(status: Status) {
                 Log.e("PlaceAutocomplete", "Error listener ${status}")
             }
         })
+
+
+        flexible_btn.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
+                semi_flex_btn.isChecked = false
+                on_time_btn.isChecked = false
+                superspeed_btn.isChecked = false
+            }
+        })
+        semi_flex_btn.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
+                flexible_btn.isChecked = false
+                on_time_btn.isChecked = false
+                superspeed_btn.isChecked = false
+            }
+        })
+        semi_flex_btn.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
+                flexible_btn.isChecked = false
+                on_time_btn.isChecked = false
+                superspeed_btn.isChecked = false
+            }
+        })
+        on_time_btn.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
+                flexible_btn.isChecked = false
+                semi_flex_btn.isChecked = false
+                superspeed_btn.isChecked = false
+            }
+        })
+        superspeed_btn.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
+                flexible_btn.isChecked = false
+                semi_flex_btn.isChecked = false
+                on_time_btn.isChecked = false
+            }
+        })
+
 
     }
 
