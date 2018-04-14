@@ -2,6 +2,7 @@ package de.slg.egomover.utility
 
 import de.slg.egomover.api.*
 import kotlinx.coroutines.experimental.*
+import kotlinx.coroutines.experimental.android.UI
 import java.util.*
 
 /**
@@ -56,7 +57,9 @@ class Bus constructor(private var id : String, private val callback : (b : Bus) 
             batteryLevel = initialStatus.battery
             geolocation = getGPS(id)
 
-            callback(this@Bus)
+            async (UI) {
+                callback(this@Bus)
+            }
 
             while (true) {
 
@@ -124,6 +127,20 @@ class Bus constructor(private var id : String, private val callback : (b : Bus) 
             distance = getETA(geolocation, GPSData(latitude, longitude)).kilometers
         }
 
+        return distance
+    }
+
+    //Must be called asynchronously
+    fun getMinutesToTarget(target: String) : Int {
+        //geolocation = getGPS(id)
+        eta = getETA(geolocation, target).eta
+        return eta
+    }
+
+    //Must be called asynchronously
+    fun getDistanceToTarget(target: String) : Int {
+        //geolocation = getGPS(id)
+        distance = getETA(geolocation, target).kilometers
         return distance
     }
 
