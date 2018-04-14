@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/digihub-hackathon.iml" filepath="$PROJECT_DIR$/digihub-hackathon.iml" />
+      <module fileurl="file://$PROJECT_DIR$/eGOMover.iml" filepath="$PROJECT_DIR$/eGOMover.iml" />
     </modules>
   </component>
 </project>

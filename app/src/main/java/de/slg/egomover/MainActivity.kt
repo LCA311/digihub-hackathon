@@ -3,9 +3,7 @@ package de.slg.egomover
 import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Canvas
-import android.location.Location
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.FragmentManager
@@ -22,6 +20,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import android.graphics.drawable.Drawable
 
 
+
 class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
 
@@ -33,6 +32,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onCreate(b: Bundle?) {
         super.onCreate(b)
+
         setContentView(R.layout.activity_main)
 
         val mapFragment: SupportMapFragment? = supportFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
