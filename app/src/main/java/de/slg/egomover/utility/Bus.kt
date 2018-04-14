@@ -72,13 +72,13 @@ class Bus constructor(private var id : String, private val callback : (b : Bus) 
 
         gpsJob = launch (CommonPool) {
             while (true) {
-                delay(60*1000)
+                delay(30*1000) //TODO Interpolate between GPS steps
                 geolocation = getGPS(id)
             }
         }
     }
 
-    fun stopKeepUpDate() {
+    fun stopKeepUpToDate() {
         gpsJob.cancel()
         etcJob.cancel()
     }

@@ -39,3 +39,22 @@ fun getETC(qnr: String): MoverStatus {
 
     return MoverStatus(spd, cap, bat, des)
 }
+
+//Returns the gps data of all available busses and an empty list if none is available or if an error occured
+fun getAllGPSData() : List<Bus.GPSData> {
+    val response = get("$ip:$port/AGPS")
+    val ret = mutableListOf<Bus.GPSData>()
+
+    if (response.statusCode != 200)
+        return ret
+
+    val json = response.jsonObject
+    val arr = json.getJSONArray("gpsdata")
+
+    (0..arr.length()-2)
+            .map { arr.getJSONObject(it) }
+            .mapTo(ret) { Bus.GPSData(it.getDouble("lat"), it.getDouble("lon")) }
+
+    return ret
+
+}
