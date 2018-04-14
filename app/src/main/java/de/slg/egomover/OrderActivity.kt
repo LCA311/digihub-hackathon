@@ -43,7 +43,7 @@ class OrderActivity : AppCompatActivity() {
             override fun onError(status: Status) {
                 Log.e("PlaceAutocomplete", "Error listener ${status}")
             }
-        }
+        })
 
     }
 
