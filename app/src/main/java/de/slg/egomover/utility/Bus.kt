@@ -16,8 +16,6 @@ import java.util.*
  */
 class Bus constructor(private var id : String, private val callback : (b : Bus) -> Unit) {
 
-    //TODO: regularly sync values or sync on demand
-
     data class GPSData(val latitude : Double, val longitude : Double)
 
     //Maximum bus passenger capacity

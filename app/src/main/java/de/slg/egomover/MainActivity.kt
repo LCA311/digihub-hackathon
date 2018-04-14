@@ -28,14 +28,22 @@ import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 
+fun getMarkerIconFromDrawable(drawable: Drawable): BitmapDescriptor {
+    val canvas = Canvas()
+    val bitmap = Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+    canvas.setBitmap(bitmap)
+    drawable.setBounds(0, 0, drawable.intrinsicWidth, drawable.intrinsicHeight)
+    drawable.draw(canvas)
+    return BitmapDescriptorFactory.fromBitmap(bitmap)
+}
 
 class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
 
-    var googleMap: GoogleMap? = null
-    val perm = 5;
-    val AACHEN = LatLng(50.77580397992759, 6.091018809604975)
-    val ZOOM_LEVEL = 14f
+    private var googleMap: GoogleMap? = null
+    private val perm = 5;
+    private val AACHEN = LatLng(50.77580397992759, 6.091018809604975)
+    private val ZOOM_LEVEL = 14f
 
 
     override fun onCreate(b: Bundle?) {
@@ -84,6 +92,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                 val latLng = LatLng(a.latitude, a.longitude)
                 Log.i("GPS1", "LAT: ${a.latitude}")
                 googleMap?.addMarker(MarkerOptions().position(latLng).icon(markerIcon).title("BUSNUMMER: 17").snippet("Passagiere: 7")) //Hard-coded. Will be changed
+                Log.i("GPS1", "Marker set")
+
             }
 
         }
@@ -123,13 +133,5 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    private fun getMarkerIconFromDrawable(drawable: Drawable): BitmapDescriptor {
-        val canvas = Canvas()
-        val bitmap = Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
-        canvas.setBitmap(bitmap)
-        drawable.setBounds(0, 0, drawable.intrinsicWidth, drawable.intrinsicHeight)
-        drawable.draw(canvas)
-        return BitmapDescriptorFactory.fromBitmap(bitmap)
-    }
 }
 

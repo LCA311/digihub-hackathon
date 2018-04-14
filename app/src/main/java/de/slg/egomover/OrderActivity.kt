@@ -69,7 +69,9 @@ class OrderActivity : AppCompatActivity() {
             on_time_btn.isChecked = false
         }
 
-
+        imageButton.setOnClickListener {
+            finish()
+        }
     }
 
     private fun initializeBusTransfer() {
