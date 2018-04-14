@@ -1,6 +1,7 @@
 package de.slg.egomover.utility
 
 import de.slg.egomover.api.*
+import kotlinx.coroutines.experimental.*
 import java.util.*
 
 /**
@@ -12,6 +13,8 @@ import java.util.*
  * @version 2018.1304
  */
 class Bus constructor(private var id : String) {
+
+    //TODO: regularly sync values or sync on demand
 
     data class GPSData(val latitude : Double, val longitude : Double)
 
@@ -31,12 +34,36 @@ class Bus constructor(private var id : String) {
     //Last measured eta to lastTarget
     private var eta = 0
 
-    //Time of last synchronization process
-    private var lastSync = Date().time
+
+    private var etcJob = Job()
+    private var gpsJob = Job()
 
     init { //Sync once on creation of bus object
-        geolocation = de.slg.egomover.api.getGPS(id)
-        syncETC()
+        startKeepUpToDate()
+    }
+
+    private fun startKeepUpToDate() {
+        etcJob = launch (CommonPool) {
+            while (true) {
+                val status = getETC(id)
+                avgSpeed = status.avgSpeed
+                capacity = status.capacity
+                batteryLevel = status.battery
+                delay(5*60*1000)
+            }
+        }
+
+        gpsJob = launch (CommonPool) {
+            while (true) {
+                geolocation = getGPS(id)
+                delay(60*1000)
+            }
+        }
+    }
+
+    fun stopKeepUpDate() {
+        gpsJob.cancel()
+        etcJob.cancel()
     }
 
     fun getId() : String {
@@ -44,47 +71,29 @@ class Bus constructor(private var id : String) {
     }
 
     fun getGPS() : GPSData {
-        if (isSyncNecessary(true))
-            geolocation = de.slg.egomover.api.getGPS(id)
-
         return geolocation
     }
 
     fun getBattery() : Int {
-        syncETC()
         return batteryLevel
     }
 
     fun getCurrentCapacity() : Int {
-        syncETC()
         return capacity
     }
 
     fun getAverageSpeed() : Double {
-        syncETC()
         return avgSpeed
     }
 
+    //Must be called asynchronously
     fun getMinutesToTarget(latitude: Double, longitude: Double) : Int {
-        if (GPSData(latitude, longitude) != lastTarget || isSyncNecessary(true)) {
-            getGPS(id)
+        if (GPSData(latitude, longitude) != lastTarget) {
+            geolocation = getGPS(id)
             eta = getETA(geolocation, GPSData(latitude, longitude))
         }
 
         return eta
-    }
-
-    private fun isSyncNecessary(isGPSSync : Boolean) : Boolean {
-        return if (isGPSSync) Date().time - lastSync > 60*1000 else Date().time - lastSync > 60*1000*5
-    }
-
-    private fun syncETC() {
-        if (isSyncNecessary(false)) {
-            val status = getETC(id)
-            avgSpeed = status.avgSpeed
-            capacity = status.capacity
-            batteryLevel = status.battery
-        }
     }
 
 }
