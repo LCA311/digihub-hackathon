@@ -22,7 +22,12 @@ import android.graphics.drawable.Drawable
 import android.widget.Button
 import kotlinx.android.synthetic.main.activity_main.*
 import de.slg.egomover.api.getAllGPSData
+import de.slg.egomover.utility.Bus
 import kotlinx.android.synthetic.main.activity_main.view.*
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.async
+
 
 class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -41,8 +46,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         val mapFragment: SupportMapFragment? = supportFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
         mapFragment?.getMapAsync(this)  //the map is loaded asynchronously
 
-        order_bus.setOnClickListener{
-            val intent = Intent(this, OrderActivity::class.java )
+        order_bus.setOnClickListener {
+            val intent = Intent(this, OrderActivity::class.java)
             startActivity(intent);
         }
 
@@ -63,7 +68,26 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
         val circleDrawable = ContextCompat.getDrawable(this, R.drawable.ic_marker_bus)
         val markerIcon = getMarkerIconFromDrawable(circleDrawable!!)
-        googleMap?.addMarker(MarkerOptions().position(AACHEN).icon(markerIcon).snippet("BUSNUMMER: 35"))
+
+        googleMap?.addMarker(MarkerOptions().position(AACHEN).icon(markerIcon).snippet("Passgiere: 11").title("BUSNUMMER: 35")) //MARKER, testing purposes in Aachen
+
+
+        async(UI) {
+            var list: List<Bus.GPSData> = listOf()
+            val job = async(CommonPool) {
+                list = getAllGPSData()
+            }
+            job.await()
+            Log.i("GPS1", "Job done")
+
+            for (a in list) {
+                val latLng = LatLng(a.latitude, a.longitude)
+                Log.i("GPS1", "LAT: ${a.latitude}")
+                googleMap?.addMarker(MarkerOptions().position(latLng).icon(markerIcon).title("BUSNUMMER: 17").snippet("Passagiere: 7")) //Hard-coded. Will be changed
+            }
+
+        }
+
 
         enableMyLocation() //location services
     }
@@ -76,6 +100,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                     arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), perm)
         } else if (googleMap != null) {
             googleMap?.isMyLocationEnabled = true
+
         }
     }
 
