@@ -9,10 +9,13 @@ import de.slg.egomover.utility.Bus
 class TimeActivity : AppCompatActivity() {
 
     private var currentBus : Bus? = null
+    private var enteredTarget = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_time)
+
+        currentBus = intent.getSerializableExtra("bus") as Bus
 
         if (savedInstanceState == null) {
             supportFragmentManager
@@ -26,7 +29,7 @@ class TimeActivity : AppCompatActivity() {
     fun switchToDriveMode() {
         supportFragmentManager
                 .beginTransaction()
-                .add(R.id.fragments, DriveFragment.newInstance())
+                .add(R.id.fragments, DriveFragment.newInstance(enteredTarget))
                 .commit()
     }
 

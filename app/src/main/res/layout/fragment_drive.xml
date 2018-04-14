@@ -29,7 +29,7 @@
                 android:fontFamily="@font/fira_sans_light"
 
                 android:paddingTop="5dp"
-                android:text="BUS KOMMT IN:"
+                android:text="BUS KOMMT AN IN:"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textSize="16dp" />
@@ -68,6 +68,7 @@
             android:layout_height="match_parent">
 
             <TextView
+                android:id="@+id/bus_designation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"

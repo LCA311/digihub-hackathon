@@ -1,19 +1,31 @@
 package de.slg.egomover.fragment
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import de.slg.egomover.R
+import de.slg.egomover.TimeActivity
 import kotlinx.android.synthetic.main.fragment_drive.*
+import kotlinx.coroutines.experimental.*
+import kotlinx.coroutines.experimental.android.UI
+import android.content.Context.LOCATION_SERVICE
+import android.location.LocationManager
 
-class WaitFragment : TimeFragment() {
+
+
+class WaitFragment : Fragment() {
 
     private var latitude = 0.0
     private var longitude = 0.0
+    private var job = Job()
 
     init {
-        //TODO get own geolocation
+        val locationManager = context!!.getSystemService(Context.LOCATION_SERVICE) as LocationManager
     }
 
     companion object {
@@ -31,8 +43,26 @@ class WaitFragment : TimeFragment() {
         super.onDestroy()
     }
 
-    override fun getTargetLatitude(): Double = latitude
+    @SuppressLint("SetTextI18n")
+    private fun updateTime(v : View) {
 
-    override fun getTargetLongitude(): Double = longitude
+        job = launch (CommonPool) {
+            while (true) {
+
+                val minutes = (activity as TimeActivity).getBus().getMinutesToTarget(latitude, longitude)
+
+                async (UI) {
+                    if (minutes == 0)
+                        (this@WaitFragment.activity as TimeActivity).switchToDriveMode()
+                    else
+                        (v as TextView).text = "$minutes Minuten"
+                }
+
+                delay(60*1000)
+
+            }
+        }
+
+    }
 
 }

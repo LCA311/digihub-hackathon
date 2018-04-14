@@ -3,6 +3,7 @@ package de.slg.egomover.utility
 import de.slg.egomover.api.*
 import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.android.UI
+import java.io.Serializable
 import java.util.*
 
 /**
@@ -13,7 +14,7 @@ import java.util.*
  *
  * @version 2018.1304
  */
-class Bus constructor(private var id : String, private val callback : (b : Bus) -> Unit) {
+class Bus constructor(private var id : String, private val callback : (b : Bus) -> Unit) : Serializable {
 
     //TODO: regularly sync values or sync on demand
 

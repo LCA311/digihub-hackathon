@@ -51,12 +51,11 @@ class OrderActivity : AppCompatActivity() {
         //Normally we would be getting a qnr of an available bus from a server side algorithm, for demo purposes we simply simulate that behaviour
         val qnr = "30000017DC237001"
 
-        val bus = Bus(qnr, { b ->
+        Bus(qnr, { b ->
             //TODO hide FAB progressbar
             val intent = Intent(this, TimeActivity::class.java)
-            intent.putExtra("qnr", qnr)
+            intent.putExtra("bus", b)
             startActivity(intent)
-
         })
 
     }
