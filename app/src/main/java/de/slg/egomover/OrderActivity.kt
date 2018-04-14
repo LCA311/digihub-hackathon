@@ -6,10 +6,6 @@ import android.support.v7.app.AppCompatActivity
 import de.slg.egomover.utility.Bus
 import kotlinx.android.synthetic.main.activity_order.*
 import android.util.Log
-import android.view.View
-import android.widget.RadioButton
-import android.widget.RadioGroup
-import android.widget.Toast
 import com.google.android.gms.common.api.Status
 import com.google.android.gms.location.places.AutocompleteFilter
 import com.google.android.gms.location.places.Place
@@ -17,7 +13,8 @@ import com.google.android.gms.location.places.ui.PlaceSelectionListener
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
-import org.jetbrains.anko.toast
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.async
 
 class OrderActivity : AppCompatActivity() {
 
@@ -79,12 +76,9 @@ class OrderActivity : AppCompatActivity() {
         //Normally we would be getting a qnr of an available bus from a server side algorithm, for demo purposes we simply simulate that behaviour
         val qnr = "30000017DC237001"
 
-        Bus(qnr, { b ->
-            //TODO hide FAB progressbar
-            val intent = Intent(applicationContext, TimeActivity::class.java)
-            intent.putExtra("bus", b)
-            startActivity(intent)
-        })
-
+        //TODO hide FAB progressbar
+        val intent = Intent(applicationContext, TimeActivity::class.java)
+        intent.putExtra("bus", qnr)
+        startActivity(intent)
     }
 }

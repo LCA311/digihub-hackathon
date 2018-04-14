@@ -83,6 +83,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:fontFamily="@font/fira_sans_light"
+                android:id="@+id/busnummer_time"
                 android:text="BUSNUMMER: 35"
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimary"

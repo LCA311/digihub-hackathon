@@ -17,7 +17,8 @@ import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
-import kotlinx.android.synthetic.main.fragment_drive.view.*
+import android.util.Log
+import kotlinx.android.synthetic.main.fragment_time.view.*
 
 
 class WaitFragment : Fragment() {
@@ -30,10 +31,12 @@ class WaitFragment : Fragment() {
         fun newInstance() : WaitFragment = WaitFragment()
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val v = inflater.inflate(R.layout.fragment_drive, container, false)
+        val v = inflater.inflate(R.layout.fragment_time, container, false)
         setOwnGPSData()
-        updateTime(v.arrival_timestamp)
+        updateTime(v.arrival_timestamp_time)
+        v.busnummer_time.text = "BUSNUMMER: ${(activity!! as TimeActivity).getBus().getDesignation()}"
         return v
     }
 
@@ -42,7 +45,7 @@ class WaitFragment : Fragment() {
         super.onDestroy()
     }
 
-    fun setOwnGPSData() {
+    private fun setOwnGPSData() {
         val locationManager = activity?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
         if ( ContextCompat.checkSelfPermission(activity!!, android.Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
@@ -52,6 +55,9 @@ class WaitFragment : Fragment() {
         val location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
         latitude = location.latitude
         longitude = location.longitude
+
+        Log.d("MOVER", latitude.toString())
+        Log.d("MOVER", longitude.toString())
     }
 
     @SuppressLint("SetTextI18n")
@@ -63,13 +69,13 @@ class WaitFragment : Fragment() {
                 val minutes = (activity as TimeActivity).getBus().getMinutesToTarget(latitude, longitude)
 
                 async (UI) {
-                    if (minutes == 0)
+                    if (minutes == 1) //Normally minutes == 0, but in our presentation route, the smallest time is 1
                         (this@WaitFragment.activity as TimeActivity).switchToDriveMode()
                     else
                         (v as TextView).text = "$minutes Minuten"
                 }
 
-                delay(60*1000)
+                delay(10*1000)
 
             }
         }

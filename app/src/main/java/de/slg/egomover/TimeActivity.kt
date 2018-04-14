@@ -9,13 +9,16 @@ import de.slg.egomover.utility.Bus
 class TimeActivity : AppCompatActivity() {
 
     private var currentBus : Bus? = null
-    private var enteredTarget = ""
+    private var enteredTarget = "Viktoriaallee 60, 52066 Aachen"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_time)
 
-        currentBus = intent.getSerializableExtra("bus") as Bus
+        //TODO enable progressbar
+        currentBus = Bus(intent.getStringExtra("bus"), {
+            //TODO disable progressbar
+        })
 
         if (savedInstanceState == null) {
             supportFragmentManager
@@ -24,6 +27,11 @@ class TimeActivity : AppCompatActivity() {
                     .commit()
         }
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        currentBus?.stopKeepUpToDate()
     }
 
     fun switchToDriveMode() {

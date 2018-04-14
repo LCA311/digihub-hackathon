@@ -10,6 +10,7 @@ import android.widget.TextView
 import de.slg.egomover.R
 import de.slg.egomover.TimeActivity
 import kotlinx.android.synthetic.main.fragment_drive.*
+import kotlinx.android.synthetic.main.fragment_drive.view.*
 import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.android.UI
 
@@ -32,8 +33,8 @@ class DriveFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val v = inflater.inflate(R.layout.fragment_drive, container, false)
         target = arguments!!.getString("target")
-        updateTime(arrival_timestamp)
-        bus_designation.text = "BUSNUMMER: ${(activity as TimeActivity).getBus().getDesignation()}"
+        updateTime(v.arrival_timestamp)
+        v.bus_designation.text = "BUSNUMMER: ${(activity as TimeActivity).getBus().getDesignation()}"
         //TODO calculate CO2 emissions depending on distanceToTarget
         return v
     }
