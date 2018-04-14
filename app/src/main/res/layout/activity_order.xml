@@ -13,8 +13,22 @@
         android:fontFamily="@font/fira_sans_light"
         android:text="@string/where"
         android:textAlignment="center"
-        android:textColor="black"
+        android:textColor="#000"
         android:textSize="25sp" />
+
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="8dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@android:color/transparent"
+        app:srcCompat="@drawable/ic_back" />
+
+
 
     <android.support.v7.widget.CardView
         android:id="@+id/sug_1"
@@ -69,7 +83,8 @@
         android:layout_marginTop="15dp"
         android:ems="10"
         android:fontFamily="@font/fira_sans_light"
-        android:inputType="textPostalAddress" />
+        android:inputType="textPostalAddress"
+        android:textColor="@color/colorAccent" />
 
     <View
         android:id="@+id/divider"
@@ -98,56 +113,150 @@
         android:fontFamily="@font/fira_sans_light"
         android:text="@string/flex"
         android:textAlignment="center"
-        android:textColor="black"
+        android:textColor="#000"
 
         android:textSize="25sp" />
 
     <RadioGroup
         android:layout_width="match_parent"
-        android:layout_height="166dp"
-        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content"
         android:layout_below="@id/flex_title"
         android:layout_centerHorizontal="true"
 
-        android:layout_marginBottom="77dp"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="10dp">
 
-        <RadioButton
-            android:id="@+id/flexible_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
-            android:fontFamily="@font/fira_sans_light"
-            android:text="@string/flexibel"
-            android:textSize="16sp" />
 
-        <RadioButton
-            android:id="@+id/semi-flex_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
-            android:fontFamily="@font/fira_sans_light"
-            android:text="@string/semi_flex"
-            android:textSize="16sp" />
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
 
-        <RadioButton
-            android:id="@+id/on_time_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
-            android:fontFamily="@font/fira_sans_light"
-            android:text="@string/on_time"
-            android:textSize="16sp" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-        <RadioButton
-            android:id="@+id/superspeed_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
-            android:fontFamily="@font/fira_sans_light"
-            android:text="@string/superspeed"
-            android:textSize="16sp" />
+                <RadioButton
+                    android:id="@+id/flexible_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:fontFamily="@font/fira_sans_light"
+                    android:text="@string/flexibel"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/pricetag_flex"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dp"
+                    android:fontFamily="@font/fira_sans_light"
+                    android:text="3.5€"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="7dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RadioButton
+                    android:id="@+id/semi-flex_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:fontFamily="@font/fira_sans_light"
+                    android:text="@string/semi_flex"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/pricetag_semi-flex"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dp"
+                    android:fontFamily="@font/fira_sans_light"
+                    android:text="3.5€"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="7dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RadioButton
+                    android:id="@+id/on_time_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:fontFamily="@font/fira_sans_light"
+                    android:text="@string/on_time"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/pricetag_on_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dp"
+                    android:fontFamily="@font/fira_sans_light"
+                    android:text="4.5€"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="7dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RadioButton
+                    android:id="@+id/superspeed_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="7dp"
+                    android:fontFamily="@font/fira_sans_light"
+                    android:text="@string/superspeed"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/pricetag_superspeed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dp"
+                    android:fontFamily="@font/fira_sans_light"
+                    android:text="8€"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
     </RadioGroup>
 
     <android.support.design.widget.FloatingActionButton
@@ -161,6 +270,6 @@
         android:clickable="true"
         android:focusable="true"
         app:fabSize="normal"
-        app:srcCompat="?attr/homeAsUpIndicator" />
+        app:srcCompat="@drawable/ic_send" />
 
 </RelativeLayout>
