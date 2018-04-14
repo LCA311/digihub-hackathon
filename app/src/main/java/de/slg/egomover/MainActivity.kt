@@ -21,6 +21,9 @@ import com.google.android.gms.maps.model.MarkerOptions
 import android.graphics.drawable.Drawable
 import android.widget.Button
 import kotlinx.android.synthetic.main.activity_main.*
+import de.slg.egomover.api.getAllGPSData
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.async
 
 
 class MainActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -73,7 +76,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             ActivityCompat.requestPermissions(this,
                     arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), perm)
         } else if (googleMap != null) {
-            googleMap?.setMyLocationEnabled(true)
+            googleMap?.isMyLocationEnabled = true
         }
     }
 
