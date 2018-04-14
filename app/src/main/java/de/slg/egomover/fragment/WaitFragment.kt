@@ -13,9 +13,10 @@ import de.slg.egomover.TimeActivity
 import kotlinx.android.synthetic.main.fragment_drive.*
 import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.android.UI
-import android.content.Context.LOCATION_SERVICE
+import android.content.pm.PackageManager
 import android.location.LocationManager
-
+import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
 
 
 class WaitFragment : Fragment() {
@@ -26,6 +27,14 @@ class WaitFragment : Fragment() {
 
     init {
         val locationManager = context!!.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+
+        if ( ContextCompat.checkSelfPermission(context!!, android.Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
+            ActivityCompat.requestPermissions(activity!!, arrayOf(android.Manifest.permission.ACCESS_COARSE_LOCATION), 0)
+        }
+
+        val location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+        latitude = location.latitude
+        longitude = location.longitude
     }
 
     companion object {
