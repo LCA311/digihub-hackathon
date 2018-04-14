@@ -36,7 +36,7 @@ class WaitFragment : Fragment() {
         val v = inflater.inflate(R.layout.fragment_time, container, false)
         setOwnGPSData()
         updateTime(v.arrival_timestamp_time)
-        v.busnummer_time.text = "BUSNUMMER: ${(activity!! as TimeActivity).getBus().getDesignation()}"
+        v.busnummer_time.text = "BUSNUMMER: 15" //TODO get from bus after sync
         return v
     }
 

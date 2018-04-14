@@ -37,7 +37,7 @@ class TimeActivity : AppCompatActivity() {
     fun switchToDriveMode() {
         supportFragmentManager
                 .beginTransaction()
-                .add(R.id.fragments, DriveFragment.newInstance(enteredTarget))
+                .replace(R.id.fragments, DriveFragment.newInstance(enteredTarget))
                 .commit()
     }
 
