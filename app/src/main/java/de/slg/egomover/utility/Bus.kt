@@ -2,6 +2,8 @@ package de.slg.egomover.utility
 
 import de.slg.egomover.api.*
 import kotlinx.coroutines.experimental.*
+import kotlinx.coroutines.experimental.android.UI
+import java.io.Serializable
 import java.util.*
 
 /**
@@ -13,8 +15,6 @@ import java.util.*
  * @version 2018.1304
  */
 class Bus constructor(private var id : String, private val callback : (b : Bus) -> Unit) {
-
-    //TODO: regularly sync values or sync on demand
 
     data class GPSData(val latitude : Double, val longitude : Double)
 
@@ -34,7 +34,7 @@ class Bus constructor(private var id : String, private val callback : (b : Bus) 
     //Last measured eta to lastTarget
     private var eta = 0
     //Last measured distance to lastTarget
-    private var distance = 0
+    private var distance = 0.0
     //Reader-friendly bus designation
     private var designation = -1
 
@@ -56,7 +56,9 @@ class Bus constructor(private var id : String, private val callback : (b : Bus) 
             batteryLevel = initialStatus.battery
             geolocation = getGPS(id)
 
-            callback(this@Bus)
+            async (UI) {
+                callback(this@Bus)
+            }
 
             while (true) {
 
@@ -72,7 +74,7 @@ class Bus constructor(private var id : String, private val callback : (b : Bus) 
 
         gpsJob = launch (CommonPool) {
             while (true) {
-                delay(30*1000) //TODO Interpolate between GPS steps
+                delay(10*1000) //TODO Interpolate between GPS steps
                 geolocation = getGPS(id)
             }
         }
@@ -118,12 +120,26 @@ class Bus constructor(private var id : String, private val callback : (b : Bus) 
     }
 
     //Must be called asynchronously
-    fun getDistanceToTarget(latitude: Double, longitude: Double) : Int {
+    fun getDistanceToTarget(latitude: Double, longitude: Double) : Double {
         if (GPSData(latitude, longitude) != lastTarget) {
             geolocation = getGPS(id)
             distance = getETA(geolocation, GPSData(latitude, longitude)).kilometers
         }
 
+        return distance
+    }
+
+    //Must be called asynchronously
+    fun getMinutesToTarget(target: String) : Int {
+        //geolocation = getGPS(id)
+        eta = getETA(geolocation, target).eta
+        return eta
+    }
+
+    //Must be called asynchronously
+    fun getDistanceToTarget(target: String) : Double {
+        //geolocation = getGPS(id)
+        distance = getETA(geolocation, target).kilometers
         return distance
     }
 

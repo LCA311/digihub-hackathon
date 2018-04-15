@@ -34,10 +34,10 @@ fun getETC(qnr: String): MoverStatus {
 
     val cap = json.get("capacity") as Int
     val bat = json.get("battery") as Int
-    val spd = json.get("speed") as Double
+    val spd = json.get("speed")
     val des = json.get("designation") as Int
 
-    return MoverStatus(spd, cap, bat, des)
+    return MoverStatus(spd as? Double ?: (spd as Int).toDouble(), cap, bat, des)
 }
 
 //Returns the gps data of all available busses and an empty list if none is available or if an error occured
